@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فلسفه ۲ (یازدهم) | گروه فلسفه و منطق استان اصفهان</title>
+<style>
+:root {
+  --primary: #0f766e;
+  --primary-light: #ccfbf1;
+  --secondary: #ca8a04;
+  --accent: #1e3a8a;
+  --bg: #f8fafc;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --card-bg: #ffffff;
+  --border: #e2e8f0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', Tahoma, sans-serif; }
+body { background: var(--bg); color: var(--text); line-height: 1.8; padding-bottom: 40px; }
+header { background: linear-gradient(135deg, #0f172a 0%, #0f766e 100%); color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border-bottom: 4px solid var(--secondary); }
+header h1 { font-size: 1.8rem; margin-bottom: 10px; letter-spacing: 1px; }
+header p { font-size: 1rem; color: #a7f3d0; font-weight: 600; }
+.lesson-selector-container { max-width: 1000px; margin: -25px auto 20px; padding: 0 16px; position: relative; z-index: 10; }
+.lesson-dropdown { width: 100%; padding: 16px 20px; border-radius: 12px; border: 2px solid var(--primary); background: white; font-size: 1.1rem; font-weight: 700; color: var(--accent); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); cursor: pointer; outline: none; }
+.lesson-dropdown:focus { border-color: var(--secondary); }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+.tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
+.tab-btn { background: white; border: 2px solid var(--border); padding: 12px 20px; border-radius: 50px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+.tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 12px rgba(15,118,110,0.3); }
+.tab-panel { display: none; animation: slideUp 0.3s ease; }
+.tab-panel.active { display: block; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-bottom: 20px; }
+.card h2 { color: var(--accent); font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid var(--primary-light); padding-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.feature-box { background: #f0fdfa; border-right: 5px solid var(--primary); padding: 20px; border-radius: 12px; margin: 20px 0; font-size: 1.05rem; }
+.feature-box strong { color: var(--primary); }
+.flashcard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.flashcard { height: 200px; perspective: 1000px; cursor: pointer; }
+.fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+.flashcard.flipped .fc-inner { transform: rotateY(180deg); }
+.fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.fc-front { background: white; font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+.fc-back { background: var(--accent); color: white; transform: rotateY(180deg); font-size: 1rem; line-height: 1.7; }
+.fc-icon { font-size: 2.5rem; margin-bottom: 10px; }
+.quiz-item { background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; }
+.quiz-q { font-weight: 700; margin-bottom: 15px; font-size: 1.05rem; color: var(--accent); }
+.option-btn { display: block; width: 100%; text-align: right; padding: 14px 18px; margin-bottom: 10px; border: 2px solid var(--border); border-radius: 10px; background: #f8fafc; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+.option-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+.option-btn.correct { background: #ecfdf5; border-color: #10b981; color: #065f46; }
+.option-btn.wrong { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+.tf-btn { padding: 12px 24px; margin-left: 10px; border: 2px solid var(--border); border-radius: 10px; font-weight: 700; cursor: pointer; background: white; font-size: 1rem; }
+.tf-btn.correct { background: #ecfdf5; border-color: #10b981; color: #065f46; }
+.tf-btn.wrong { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+.answer-box { display: none; background: #f1f5f9; padding: 16px; border-radius: 10px; margin-top: 15px; border-right: 5px solid var(--secondary); font-size: 0.95rem; }
+.answer-box.show { display: block; }
+.reveal-btn { background: var(--primary-light); color: var(--primary); border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 0.9rem; }
+.game-status { background: var(--primary-light); padding: 15px; border-radius: 10px; font-weight: 700; text-align: center; margin-bottom: 20px; color: var(--primary); font-size: 1.1rem; }
+.game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+.match-tile { background: white; border: 2px dashed var(--primary); border-radius: 12px; padding: 20px 15px; text-align: center; cursor: pointer; font-weight: 700; font-size: 0.95rem; color: var(--primary); transition: 0.2s; }
+.match-tile:hover { background: #f0fdfa; }
+.match-tile.selected { background: var(--primary); color: white; border-style: solid; transform: scale(1.05); }
+.match-tile.matched { background: var(--secondary); color: white; border-color: var(--secondary); cursor: default; pointer-events: none; opacity: 0.7; }
+footer { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 40px; }
+footer strong { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>📘 فلسفه ۲ - پایه یازدهم</h1>
+  <p>کاری از گروه فلسفه و منطق استان اصفهان</p>
+</header>
+<div class="lesson-selector-container">
+  <select id="lessonSelect" class="lesson-dropdown" onchange="loadLesson(this.value)"></select>
+</div>
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('lesson')">📖 درسنامه</button>
+    <button class="tab-btn" onclick="showTab('flashcards')">⚡ فلش‌کارت</button>
+    <button class="tab-btn" onclick="showTab('exam')">📝 آزمون</button>
+    <button class="tab-btn" onclick="showTab('game')">🎮 بازی جورچین</button>
+    <button class="tab-btn" onclick="showTab('assistant')">🤖 دستیار</button>
+  </div>
+  <div id="panel-lesson" class="tab-panel active"><div class="card" id="lessonContent"></div></div>
+  <div id="panel-flashcards" class="tab-panel">
+    <div class="card">
+      <h2>⚡ فلش‌کارت‌های مرور سریع</h2>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">💡 روی هر کارت کلیک کنید تا پاسخ ظاهر شود.</p>
+      <div class="flashcard-grid" id="flashcardContainer"></div>
+    </div>
+  </div>
+  <div id="panel-exam" class="tab-panel">
+    <div class="card">
+      <h2>📝 آزمون جامع</h2>
+      <div id="examContainer"></div>
+    </div>
+  </div>
+  <div id="panel-game" class="tab-panel">
+    <div class="card">
+      <h2>🎮 بازی جورچین مفاهیم</h2>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:16px;">دو کارت مرتبط را پیدا کنید.</p>
+      <div class="game-status" id="gameStatus">پیشرفت: ۰ از ۴</div>
+      <div class="game-grid" id="gameContainer"></div>
+    </div>
+  </div>
+  <div id="panel-assistant" class="tab-panel">
+    <div class="card">
+      <h2>🤖 دستیار پاسخگویی</h2>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:16px;">سوالات متداول این درس:</p>
+      <div id="assistantContainer" style="display:flex; flex-direction:column; gap:15px;"></div>
+    </div>
+  </div>
+</div>
+<footer>
+  <p><strong>کاری از گروه فلسفه و منطق استان اصفهان</strong></p>
+  <p>طراحی و تولید محتوای تعاملی برای دانش‌آموزان پایه یازدهم</p>
+</footer>
+<script>
+const masterData = [
+  { id: 1, title: "درس ۱: چیستی فلسفه", lessonText: `<h2>📖 درسنامه: چیستی فلسفه</h2><p>انسان در زندگی روزمره با سوال‌های عادی و سوال‌های اساسی (آزادی چیست؟ آغاز و انجام جهان چگونه است؟) روبه‌روست. سوال‌های نوع دوم، <strong>فلسفی</strong> هستند.</p><div class="feature-box"><strong>💡 تعریف فلسفه:</strong> واژه «فلسفه» عربی‌شده «فیلوسوفیا» است. «فیلو» به معنای دوستداری و «سوفیا» به معنای دانایی. پس فلسفه = دوستداری دانایی. سقراط این واژه را رواج داد.</div><p>ملاصدرا کسانی را که در امور عادی می‌مانند «فطرت اول» و کسانی که به پرسش‌های اساسی می‌پردازند «فطرت ثانی» می‌نامد.</p><div class="feature-box"><strong>💡 ارسطو:</strong> فلسفه را به سه شاخه تقسیم کرد: نظری، عملی و شعری. «فلسفه اولی» همان مابعدالطبیعه است.</div>`, flashcards: [{ q: "معنای لغوی فلسفه چیست؟", a: "فیلوسوفیا = فیلو (دوستداری) + سوفیا (دانایی) ← دوستداری دانایی" }, { q: "تفاوت موضوع فلسفه با سایر علوم؟", a: "موضوع فلسفه، بنیادی‌ترین موضوعات (اصل وجود و حقیقت جهان) است." }, { q: "روش فلسفه چیست؟", a: "استفاده از روش عقلی و قیاسی (برخلاف علوم تجربی)." }], exam: { mcq: [{ q: "۱. کدام گزینه درباره تفاوت «فلسفه» و «سایر علوم» درست است؟", opts: ["موضوع فلسفه خاص و روش آن تجربی است.", "موضوع فلسفه عام و روش آن عقلی است.", "موضوع فلسفه عام و روش آن تجربی است.", "موضوع فلسفه خاص و روش آن عقلی است."], correct: 1, exp: "فلسفه درباره حقیقت عام هستی بحث می‌کند و از روش عقلی استفاده می‌کند." }], tf: [{ q: "۲. سقراط خود را «سوفیست» نامید تا از فیلسوفان جدا شود.", ans: false, exp: "سقراط خود را «فیلسوف» (دوستدار دانایی) نامید." }], fill: [{ q: "۳. واژه فلسفه از «فیلو» به معنی .................... و «سوفیا» به معنی .................... تشکیل شده است.", ans: "دوستداری - دانایی" }], desc: [{ q: "۴. چرا فلسفه را «مابعدالطبیعه» می‌نامند؟", guide: "شاگردان ارسطو نوشته‌های فلسفی او را بعد از بخش طبیعات قرار دادند و به همین دلیل «مابعدالطبیعه» نامیده شد." }] }, matches: [{ term: "فیلوسوفیا", match: "دوستداری دانایی" }, { term: "سوفیست", match: "دانشمند مدعی" }, { term: "فطرت ثانی", match: "تفکر فلسفی" }, { term: "مابعدالطبیعه", match: "فلسفه اولی" }], qa: [{ q: "تفاوت فلسفه با سایر علوم چیست؟", a: "موضوع فلسفه بنیادی‌ترین مسائل است و روش آن عقلی است." }, { q: "چرا سقراط خود را فیلسوف نامید؟", a: "برای دوری از سوفیست‌ها و با تواضع در برابر علم." }] },
+  { id: 2, title: "درس ۲: ریشه و شاخه‌های فلسفه", lessonText: `<h2>📖 درسنامه: ریشه و شاخه‌های فلسفه</h2><p>دانش فلسفه دارای یک بخش اصلی (ریشه) و تعدادی بخش‌های فرعی (شاخه) است.</p><div class="feature-box"><strong>💡 بخش اصلی (ریشه):</strong> هستی‌شناسی (بحث از قوانین کلی هستی) و معرفت‌شناسی (بحث از توانایی شناخت انسان).</div><p>شاخه‌های فلسفه (فلسفه‌های مضاف): قوانین بنیادی را به محدوده‌های خاص منتقل می‌کنند. مانند فلسفه اخلاق، فلسفه دین، فلسفه علم.</p>`, flashcards: [{ q: "بخش اصلی فلسفه شامل چه بخش‌هایی است؟", a: "هستی‌شناسی و معرفت‌شناسی." }, { q: "فلسفه‌های مضاف چیست؟", a: "شاخه‌هایی که قوانین بنیادی فلسفه را به محدوده‌های خاص منتقل می‌کنند." }], exam: { mcq: [{ q: "۱. کدام یک در حیطه «هستی‌شناسی» قرار می‌گیرد؟", opts: ["بررسی ابزارهای شناخت", "بحث از قانون علیت", "بررسی چگونگی معرفت", "نقد دیدگاه‌های معرفت‌شناختی"], correct: 1, exp: "هستی‌شناسی به قوانین کلی هستی می‌پردازد." }], tf: [{ q: "۲. فلسفه اخلاق یکی از شاخه‌های اصلی و ریشه‌ای فلسفه است.", ans: false, exp: "فلسفه اخلاق از شاخه‌های فرعی (فلسفه‌های مضاف) است." }], fill: [{ q: "۳. بخش اصلی فلسفه که به بررسی توانایی انسان در شناخت می‌پردازد، .................... می‌گویند.", ans: "معرفت‌شناسی" }], desc: [{ q: "۴. رابطه فلسفه‌های مضاف با علوم را با مثال توضیح دهید.", guide: "مبانی علوم در فلسفه‌های مضاف بررسی می‌شوند. مثلاً در فلسفه علوم اجتماعی، بحث اصالت فرد یا جامعه تعیین‌کننده جهت‌گیری برنامه‌های اقتصادی است." }] }, matches: [{ term: "هستی‌شناسی", match: "قوانین کلی هستی" }, { term: "معرفت‌شناسی", match: "توانایی شناخت انسان" }, { term: "فلسفه اخلاق", match: "فلسفه مضاف" }, { term: "فلسفه اولی", match: "مابعدالطبیعه" }], qa: [{ q: "تفاوت هستی‌شناسی و معرفت‌شناسی چیست؟", a: "هستی‌شناسی درباره قوانین کلی هستی و معرفت‌شناسی درباره توانایی شناخت انسان بحث می‌کند." }] },
+  { id: 3, title: "درس ۳: فلسفه و زندگی", lessonText: `<h2>📖 درسنامه: فلسفه و زندگی</h2><p>هر یک از ما باورهایی درباره جهان، انسان، مرگ، عدالت و زیبایی داریم که بر اساس آن‌ها زندگی می‌کنیم.</p><div class="feature-box"><strong>💡 تفکر فلسفی:</strong> تأمل درباره باورهای مربوط به زندگی، یافتن دلایل درستی یا نادرستی آن‌ها و پذیرفتن باورهای درست.</div><p><strong>فلسفه هر کس، معنادهنده به زندگی اوست.</strong></p><div class="feature-box"><strong>💡 فواید تفکر فلسفی:</strong> دوری از مغالطه‌ها، رهایی از عادت‌های غیرمنطقی، رسیدن به آزاداندیشی و معنابخشی به زندگی.</div>`, flashcards: [{ q: "تفکر فلسفی درباره زندگی یعنی چه؟", a: "تأمل درباره باورهای زندگی و یافتن دلایل درستی یا نادرستی آن‌ها." }, { q: "جمله معروف ارسطو درباره استقلال در اندیشه؟", a: "«افلاطون برای من عزیز است، اما حقیقت عزیزتر است.»" }], exam: { mcq: [{ q: "۱. کدام عبارت درباره رابطه فلسفه و زندگی درست است؟", opts: ["فلسفه ربطی به زندگی ندارد.", "باورهای فلسفی در انتخاب اهداف زندگی نقش دارند.", "فلسفه فقط برای فیلسوفان مفید است.", "تفکر فلسفی باعث دوری از واقعیت می‌شود."], correct: 1, exp: "فلسفه هر کس معنادهنده به زندگی اوست." }], tf: [{ q: "۲. جمله «افلاطون عزیز است اما حقیقت عزیزتر است» نشان‌دهنده تعصب ارسطو است.", ans: false, exp: "این جمله نشان‌دهنده استقلال در اندیشه است." }], fill: [{ q: "۳. کسانی که در امور عادی می‌مانند، ملاصدرا آن‌ها را اهل .................... می‌نامد.", ans: "فطرت اول" }], desc: [{ q: "۴. دو مورد از فواید تفکر فلسفی را بنویسید.", guide: "دوری از مغالطه‌ها و رهایی از عادت‌های غیرمنطقی." }] }, matches: [{ term: "فطرت اول", match: "ماندن در امور عادی" }, { term: "فطرت ثانی", match: "تفکر فلسفی" }, { term: "دوری از مغالطه", match: "فایده تفکر فلسفی" }, { term: "استقلال در اندیشه", match: "رهایی از عادت‌های غیرمنطقی" }], qa: [{ q: "چرا تفکر فلسفی به معنای زندگی کمک می‌کند؟", a: "با نقد باورها به ما کمک می‌کند باورهای درست را انتخاب کنیم." }] },
+  { id: 4, title: "درس ۴: آغاز تاریخی فلسفه", lessonText: `<h2>📖 درسنامه: آغاز تاریخی فلسفه</h2><p>برای دانش فلسفه نمی‌توان آغاز زمانی تعیین کرد. هرجا تمدنی شکل گرفته، اندیشمندانی بوده‌اند.</p><div class="feature-box"><strong>💡 ایران باستان:</strong> یکی از سرزمین‌های فلسفه‌خیز بوده و حکیمان خداپرست داشته است.</div><p>در یونان باستان، تالس نخستین فیلسوف بود که آب را عنصر اولیه می‌دانست. هراکلیتوس معتقد به تغییر دائمی بود و پارمنیدس هستی را ثابت می‌دانست. سوفیست‌ها با مغالطه، حق را باطل جلوه می‌دادند.</p>`, flashcards: [{ q: "نخستین فیلسوف یونانی چه کسی بود؟", a: "تالس؛ او آب را عنصر اولیه می‌دانست." }, { q: "هراکلیتوس چه اندیشه‌ای داشت؟", a: "تغییر دائمی جهان. «نمی‌توان در یک رودخانه دو بار شنا کرد.»" }, { q: "شعار پروتاگوراس چه بود؟", a: "«انسان معیار همه چیز است.»" }], exam: { mcq: [{ q: "۱. کدام فیلسوف معتقد به «تغییر دائمی جهان» بود؟", opts: ["تالس", "پارمنیدس", "هراکلیتوس", "فیثاغورس"], correct: 2, exp: "هراکلیتوس می‌گفت همه چیز در حرکت است." }], tf: [{ q: "۲. پارمنیدس هستی را واحد، ثابت و جاودان می‌دانست.", ans: true, exp: "پارمنیدس حرکت را انکار می‌کرد." }], fill: [{ q: "۳. .................... نخستین فیلسوف یونانی است که آب را عنصر اولیه می‌دانست.", ans: "تالس" }], desc: [{ q: "۴. سوفیست‌ها چه کسانی بودند؟", guide: "گروهی که به جای کشف حقیقت بر پیروزی در بحث تمرکز داشتند و از مغالطه استفاده می‌کردند." }] }, matches: [{ term: "تالس", match: "آب عنصر اولیه" }, { term: "هراکلیتوس", match: "تغییر دائمی جهان" }, { term: "پارمنیدس", match: "هستی واحد و ثابت" }, { term: "پروتاگوراس", match: "انسان معیار همه چیز" }], qa: [{ q: "چرا یونان را مهد تفکر فلسفی می‌دانند؟", a: "نخستین مجموعه‌های فلسفی مکتوب از یونان به یادگار مانده است." }] },
+  { id: 5, title: "درس ۵: زندگی بر اساس اندیشه (سقراط)", lessonText: `<h2>📖 درسنامه: زندگی بر اساس اندیشه</h2><p>سقراط چهره برجسته تاریخ فلسفه است که هیچ کتابی ننوشت اما زندگی‌اش را با فلسفه سپری کرد.</p><div class="feature-box"><strong>💡 روش سقراطی:</strong> پرسش و پاسخ برای رسیدن به حقیقت.</div><p>او در جامعه‌ای که سوفیست‌ها مغالطه می‌کردند، پرچم علم و فضیلت برافراشت. او را به «فاسد کردن جوانان» متهم کردند و با جام شوکران اعدام شد.</p>`, flashcards: [{ q: "روش سقراطی چیست؟", a: "گفت‌وگو و پرسش و پاسخ برای رسیدن به حقیقت." }, { q: "سقراط دانایی را در چه می‌دانست؟", a: "در اقرار به نادانی." }, { q: "سقراط به چه اتهامی محاکمه شد؟", a: "فاسد کردن جوانان و بی‌ایمانی به خدایان." }], exam: { mcq: [{ q: "۱. روش سقراطی بر چه اساسی بود؟", opts: ["سخنرانی", "پرسش و پاسخ", "مغالطه", "نوشتن رساله"], correct: 1, exp: "سقراط با پرسش و پاسخ مخاطب را به حقیقت می‌رساند." }], tf: [{ q: "۲. سقراط معتقد بود ثروت باعث فضیلت می‌شود.", ans: false, exp: "او می‌گفت از فضیلت است که ثروت به دست می‌آید." }], fill: [{ q: "۳. سقراط با نوشیدن جام .................... جان خود را فدا کرد.", ans: "شوکران" }], desc: [{ q: "۴. چرا سقراط خود را فیلسوف نامید؟", guide: "برای دوری از سوفیست‌ها و با تواضع در برابر علم." }] }, matches: [{ term: "روش سقراطی", match: "پرسش و پاسخ" }, { term: "اقرار به نادانی", match: "آغاز دانایی" }, { term: "جام شوکران", match: "مرگ سقراط" }, { term: "سپسرون", match: "فلسفه از آسمان به زمین" }], qa: [{ q: "چرا سقراط جان خود را فدا کرد؟", a: "به اصول فلسفی خود پایبند بود و از فرمان الهی سرپیچی نکرد." }] },
+  { id: 6, title: "درس ۶: معرفت و شناخت", lessonText: `<h2>📖 درسنامه: معرفت و شناخت</h2><p>یکی از ویژگی‌های انسان، توانایی شناختن است.</p><div class="feature-box"><strong>💡 معرفت‌شناسی:</strong> بخشی از فلسفه که به پدیده شناخت می‌پردازد.</div><p>برخی مانند گرگیاس منکر امکان شناخت شدند. اما شکاکیت مطلق امکان‌پذیر نیست؛ زیرا خود شک کردن نشانه‌ای از امکان شناخت است.</p>`, flashcards: [{ q: "معرفت‌شناسی چیست؟", a: "بخشی از فلسفه که به پدیده شناخت می‌پردازد." }, { q: "دیدگاه گرگیاس چه بود؟", a: "چیزی وجود ندارد، اگر وجود دارد قابل شناخت نیست، اگر قابل شناخت باشد قابل انتقال نیست." }], exam: { mcq: [{ q: "۱. کدام پرسش در حیطه معرفت‌شناسی است؟", opts: ["آیا خدا وجود دارد؟", "آیا شناخت ما ارزشمند است؟", "قانون علیت چیست؟", "آیا انسان اجتماعی است؟"], correct: 1, exp: "معرفت‌شناسی به ارزش و امکان شناخت می‌پردازد." }], tf: [{ q: "۲. شکاکیت مطلق یک دیدگاه منطقی است.", ans: false, exp: "شکاکیت مطلق خودش را نقض می‌کند." }], fill: [{ q: "۳. بخشی از فلسفه که به شناخت می‌پردازد، .................... نامیده می‌شود.", ans: "معرفت‌شناسی" }], desc: [{ q: "۴. دو روش پیشرفت دانش انسان را بنویسید.", guide: "حل مجهولات و تصحیح اشتباهات گذشتگان." }] }, matches: [{ term: "معرفت‌شناسی", match: "شناخت‌شناسی" }, { term: "گرگیاس", match: "انکار امکان شناخت" }, { term: "شکاکیت مطلق", match: "تناقض‌آمیز" }, { term: "تصحیح نظریه زمین‌مرکزی", match: "پیشرفت دانش" }], qa: [{ q: "چرا معرفت‌شناسی مهم است؟", a: "زیرا مبنای سایر مباحث فلسفی است." }] },
+  { id: 7, title: "درس ۷: ابزارهای شناخت", lessonText: `<h2>📖 درسنامه: ابزارهای شناخت</h2><p>ابزارهای شناخت انسان: حس، عقل، قلب (شهود) و وحی.</p><div class="feature-box"><strong>💡 حس:</strong> آشنایی با عالم طبیعت. <strong>عقل:</strong> تحلیل یافته‌های حسی و رسیدن به قوانین. <strong>قلب:</strong> معرفت شهودی با تهذیب نفس. <strong>وحی:</strong> برترین شهود که به پیامبران اختصاص دارد.</div>`, flashcards: [{ q: "ابزارهای شناخت کدام‌اند؟", a: "حس، عقل، قلب (شهود) و وحی." }, { q: "تفاوت شناخت تجربی و عقلی؟", a: "تجربی با حس و عقل، عقلی فقط با تعقل محض." }, { q: "معرفت شهودی چیست؟", a: "معرفتی که از طریق قلب و تهذیب نفس حاصل می‌شود." }], exam: { mcq: [{ q: "۱. از نظر ابن‌سینا قانون علیت چگونه به دست می‌آید؟", opts: ["تجربه", "قواعد اولیه تعقل", "وحی", "شهود"], correct: 1, exp: "قانون علیت از قواعد اولیه تعقل است." }], tf: [{ q: "۲. شناخت عقلی محض از تجربه به دست می‌آید.", ans: false, exp: "شناخت عقلی محض بدون تجربه حاصل می‌شود." }], fill: [{ q: "۳. معرفتی که از قلب و تهذیب نفس به دست می‌آید، .................... نامیده می‌شود.", ans: "معرفت شهودی" }], desc: [{ q: "۴. تفاوت معرفت وحیانی و شهود عارفانه را بنویسید.", guide: "وحی از جانب خدا نازل می‌شود، شهود مشاهده قلبی عارف است." }] }, matches: [{ term: "حس", match: "شناخت حسی" }, { term: "عقل", match: "شناخت عقلی" }, { term: "قلب", match: "معرفت شهودی" }, { term: "وحی", match: "برترین شهود" }], qa: [{ q: "چرا حس به تنهایی کافی نیست؟", a: "زیرا تنها ظاهر اشیا را نشان می‌دهد و ممکن است خطا کند." }] },
+  { id: 8, title: "درس ۸: نگاهی به تاریخچه معرفت", lessonText: `<h2>📖 درسنامه: تاریخچه معرفت</h2><p>در یونان باستان، پارمنیدس حس را معتبر نمی‌دانست و سوفیست‌ها منکر شناخت بودند. فیلسوفان مسلمان حس، عقل و قلب را معتبر می‌دانستند. در دوره جدید، تجربه‌گرایان فقط حس را قبول داشتند و عقل‌گرایان بر عقل تأکید کردند. کانت معرفت را حاصل همکاری عقل و حس دانست. آگوست کنت پوزیتیویسم را بنیان نهاد.</p>`, flashcards: [{ q: "دیدگاه پارمنیدس درباره حس؟", a: "حس را معتبر نمی‌دانست." }, { q: "فیلسوفان مسلمان چه ابزارهایی را معتبر می‌دانستند؟", a: "حس، عقل و قلب." }, { q: "پوزیتیویسم چه دیدگاهی داشت؟", a: "تنها گزاره‌های تجربی را معنادار می‌دانست." }], exam: { mcq: [{ q: "۱. کدام فیلسوف معتقد بود معرفت حاصل همکاری عقل و حس است؟", opts: ["هیوم", "کنت", "کانت", "بیکن"], correct: 2, exp: "کانت این دیدگاه را مطرح کرد." }], tf: [{ q: "۲. پوزیتیویست‌ها مفاهیمی مانند خدا را بی‌معنا می‌دانستند.", ans: true, exp: "زیرا تجربه‌پذیر نیستند." }], fill: [{ q: "۳. بنیان‌گذار پوزیتیویسم .................... بود.", ans: "آگوست کنت" }], desc: [{ q: "۴. دیدگاه تجربه‌گرایان و عقل‌گرایان را مقایسه کنید.", guide: "تجربه‌گرایان فقط حس را معتبر می‌دانستند، عقل‌گرایان بر عقل تأکید داشتند." }] }, matches: [{ term: "پارمنیدس", match: "بی‌اعتباری حس" }, { term: "کانت", match: "همکاری عقل و حس" }, { term: "آگوست کنت", match: "پوزیتیویسم" }, { term: "دیوید هیوم", match: "تجربه‌گرایی" }], qa: [{ q: "چرا پوزیتیویسم نقد شد؟", a: "زیرا بخش بزرگی از معارف بشری را بی‌اعتبار کرد." }] },
+  { id: 9, title: "درس ۹: چیستی انسان (۱)", lessonText: `<h2>📖 درسنامه: چیستی انسان (۱)</h2><p>افلاطون نفس را حقیقت برتر انسان می‌دانست. ارسطو نفس را مبدأ حیات می‌دانست. دکارت «من» را روح مجزا از بدن می‌دانست. کانت با استدلال اخلاقی نفس را اثبات کرد. ماتریالیست‌ها انسان را فقط مادی می‌دانند.</p>`, flashcards: [{ q: "از نظر افلاطون حقیقت انسان چیست؟", a: "نفس، حقیقتی برتر و غیرقابل رویت." }, { q: "دکارت «من» را چه می‌دانست؟", a: "روح یا نفس که مرکز اندیشه‌هاست." }, { q: "ماتریالیست‌ها چه می‌گویند؟", a: "انسان فقط موجودی مادی است." }], exam: { mcq: [{ q: "۱. کدام فیلسوف انسان را ماشین مادی می‌دانست؟", opts: ["افلاطون", "ارسطو", "دکارت", "توماس هابز"], correct: 3, exp: "هابز از ماتریالیست‌ها بود." }], tf: [{ q: "۲. ارسطو نفس را مبدأ حیات می‌دانست.", ans: true, exp: "بدن بدون نفس مرده است." }], fill: [{ q: "۳. فیلسوف ماتریالیست قرن نوزدهم .................... بود.", ans: "مارکس" }], desc: [{ q: "۴. دیدگاه دکارت و ماتریالیست‌ها را مقایسه کنید.", guide: "دکارت دو بعد روح و بدن، ماتریالیست‌ها فقط بعد مادی." }] }, matches: [{ term: "افلاطون", match: "نفس برتر از بدن" }, { term: "دکارت", match: "روح و بدن مجزا" }, { term: "توماس هابز", match: "ماتریالیسم" }, { term: "داروینیست‌ها", match: "انسان حیوان راست‌قامت" }], qa: [{ q: "چرا افلاطون نفس را با ارزش‌ترین دارایی می‌دانست؟", a: "زیرا تنها موجودی است که عقل و خرد دارد." }] },
+  { id: 10, title: "درس ۱۰: چیستی انسان (۲)", lessonText: `<h2>📖 درسنامه: چیستی انسان (۲)</h2><p>ابن‌سینا روح را مجرد می‌دانست که خداوند به بدن عطا می‌کند. سهروردی نفس را نورانی و بدن را ظلمانی می‌دانست. ملاصدرا روح را نتیجه تکامل بدن می‌دانست.</p>`, flashcards: [{ q: "ابن‌سینا درباره روح چه می‌گفت؟", a: "روح موجودی مجرد است که خداوند به بدن عطا می‌کند." }, { q: "سهروردی حقیقت انسان را چگونه توصیف می‌کند؟", a: "نفس جنبه نورانی وجود است." }, { q: "ملاصدرا رابطه روح و بدن را چگونه می‌دید؟", a: "روح نتیجه رشد و تکامل بدن است." }], exam: { mcq: [{ q: "۱. کدام فیلسوف معتقد بود روح نتیجه تکامل بدن است؟", opts: ["ابن‌سینا", "سهروردی", "ملاصدرا", "فارابی"], correct: 2, exp: "ملاصدرا در حکمت متعالیه." }], tf: [{ q: "۲. ابن‌سینا با مثال انسان معلق در فضا نشان داد نفس به خود آگاهی دارد.", ans: true, exp: "بله، حتی بدون احساس بدنی." }], fill: [{ q: "۳. از نظر سهروردی نفس جنبه .................... و بدن جنبه .................... است.", ans: "نورانی - ظلمانی" }], desc: [{ q: "۴. دیدگاه ملاصدرا درباره تکامل انسان را توضیح دهید.", guide: "انسان ظرفیت بی‌نهایت دارد و باید با اختیار مسیر تکامل را انتخاب کند." }] }, matches: [{ term: "ابن‌سینا", match: "انسان معلق در فضا" }, { term: "سهروردی", match: "نور و ظلمت" }, { term: "ملاصدرا", match: "وحدت روح و بدن" }, { term: "مولوی", match: "از جمادی مردم و نامی شدم" }], qa: [{ q: "مثال انسان معلق در فضا چه چیزی را اثبات می‌کند؟", a: "نفس حتی بدون احساس بدنی به خود آگاهی دارد." }] },
+  { id: 11, title: "درس ۱۱: انسان، موجود اخلاق‌گرا", lessonText: `<h2>📖 درسنامه: انسان، موجود اخلاق‌گرا</h2><p>انسان می‌تواند خوب و بد اخلاقی را درک کند. فعل طبیعی برای رفع نیاز است و فعل اخلاقی مورد ستایش یا سرزنش قرار می‌گیرد. افلاطون معیار را سعادت و حاکمیت عقل می‌دانست. کانت معیار را وجدان اخلاقی می‌دانست.</p>`, flashcards: [{ q: "تفاوت فعل طبیعی و اخلاقی؟", a: "طبیعی برای رفع نیاز، اخلاقی مورد ستایش یا سرزنش." }, { q: "افلاطون چه زمانی فعل را اخلاقی می‌دانست؟", a: "زمانی که بر اساس فرمان عقل باشد." }, { q: "کانت معیار اخلاق را چه می‌دانست؟", a: "وجدان اخلاقی." }], exam: { mcq: [{ q: "۱. کدام یک فعل اخلاقی است؟", opts: ["خوردن", "خوابیدن", "کمک به نیازمند", "ورزش"], correct: 2, exp: "کمک به نیازمند مورد ستایش است." }], tf: [{ q: "۲. ارسطو اعتدال را عامل سعادت می‌دانست.", ans: true, exp: "بله، با حاکمیت عقل بر قوا." }], fill: [{ q: "۳. کانت معیار فعل اخلاقی را در .................... جستجو می‌کرد.", ans: "وجدان اخلاقی" }], desc: [{ q: "۴. دیدگاه افلاطون درباره فضایل را توضیح دهید.", guide: "حکمت از عقل، خویشتن‌داری از شهوت، شجاعت از غضب، عدالت از هماهنگی قوا." }] }, matches: [{ term: "فعل طبیعی", match: "رفع نیاز روزمره" }, { term: "فعل اخلاقی", match: "ستایش یا سرزنش" }, { term: "افلاطون", match: "عدالت در قوا" }, { term: "کانت", match: "وجدان اخلاقی" }], qa: [{ q: "چرا انسان موجودی اخلاق‌گراست؟", a: "زیرا می‌تواند خوب و بد را درک کند." }] },
+  { id: 12, title: "درس ۱۲: معیار فعل اخلاقی (مسلمانان و دوره جدید)", lessonText: `<h2>📖 درسنامه: معیار فعل اخلاقی</h2><p>فیلسوفان مسلمان عقل عملی را منبع شناخت فضیلت‌ها می‌دانند و به پشتوانه الهی برای اخلاق معتقدند. توماس هابز قاعده طلایی اخلاق را مطرح کرد. ماتریالیست‌ها اخلاق را وسیله‌ای برای حفظ منافع می‌دانند.</p>`, flashcards: [{ q: "عقل عملی چه نقشی در اخلاق دارد؟", a: "تشخیص رفتار خوب و بد." }, { q: "چرا فیلسوفان مسلمان به پشتوانه الهی معتقدند؟", a: "زیرا تمایلات مادی گاه مانع فضایل می‌شوند." }, { q: "قانون اخلاقی هابز چیست؟", a: "«آنچه برای خود می‌پسندی، برای دیگران هم بپسند.»" }], exam: { mcq: [{ q: "۱. پشتوانه اصلی اخلاق از نظر فیلسوفان مسلمان چیست؟", opts: ["ترس از قانون", "اعتقاد به خدا", "تأیید اجتماعی", "منفعت شخصی"], correct: 1, exp: "اعتقاد به خدا و پاداش و مجازات الهی." }], tf: [{ q: "۲. هابز معتقد بود قواعد اخلاقی ارزش حقیقی دارند.", ans: false, exp: "او اخلاق را برای حفظ منافع ضروری می‌دانست." }], fill: [{ q: "۳. فیلسوفان مسلمان عقل را از آن جهت که خوب و بد را تشخیص می‌دهد، .................... می‌نامند.", ans: "عقل عملی" }], desc: [{ q: "۴. دیدگاه ماتریالیست‌ها درباره اخلاق را توضیح دهید.", guide: "خوب و بد را بر اساس سود و زیان تعریف می‌کنند و اخلاق را وسیله حفظ منافع می‌دانند." }] }, matches: [{ term: "عقل عملی", match: "تشخیص خوب و بد" }, { term: "فیلسوفان مسلمان", match: "پشتوانه الهی اخلاق" }, { term: "توماس هابز", match: "قاعده طلایی اخلاق" }, { term: "ماتریالیست‌ها", match: "سود و زیان" }], qa: [{ q: "چرا انسان با وجود شناخت فضیلت گاهی به رذیلت روی می‌آورد؟", a: "زیرا تمایلات مادی گاه قوی‌تر می‌شوند." }] }
+];
+const lessonSelect = document.getElementById('lessonSelect');
+let currentLesson = masterData[0];
+masterData.forEach(lesson => {
+  const opt = document.createElement('option');
+  opt.value = lesson.id;
+  opt.textContent = lesson.title;
+  lessonSelect.appendChild(opt);
+});
+
+function loadLesson(id) {
+  const lesson = masterData.find(l => l.id === parseInt(id));
+  if (!lesson) return;
+  currentLesson = lesson;
+  document.getElementById('lessonContent').innerHTML = lesson.lessonText;
+  
+  const fcContainer = document.getElementById('flashcardContainer');
+  fcContainer.innerHTML = '';
+  lesson.flashcards.forEach(fc => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.onclick = () => card.classList.toggle('flipped');
+    card.innerHTML = `<div class="fc-inner"><div class="fc-front"><div class="fc-icon">❓</div><div>${fc.q}</div></div><div class="fc-back"><div class="fc-icon">🔑</div><div>${fc.a}</div></div></div>`;
+    fcContainer.appendChild(card);
+  });
+
+  const examContainer = document.getElementById('examContainer');
+  examContainer.innerHTML = '';
+  
+  lesson.exam.mcq.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    let optsHtml = item.opts.map((opt, oIdx) => `<button class="option-btn" onclick="checkMCQ(this, ${oIdx}, ${item.correct}, 'mcqExp${idx}')">${opt}</button>`).join('');
+    div.innerHTML = `<div class="quiz-q">${item.q}</div>${optsHtml}<div id="mcqExp${idx}" class="answer-box">${item.exp}</div>`;
+    examContainer.appendChild(div);
+  });
+
+  lesson.exam.tf.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `<div class="quiz-q">${item.q}</div><button class="tf-btn" onclick="checkTF(this, true, ${item.ans}, 'tfExp${idx}')">صحیح</button><button class="tf-btn" onclick="checkTF(this, false, ${item.ans}, 'tfExp${idx}')">غلط</button><div id="tfExp${idx}" class="answer-box">${item.exp}</div>`;
+    examContainer.appendChild(div);
+  });
+
+  lesson.exam.fill.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `<div class="quiz-q">${item.q}</div><button class="reveal-btn" onclick="toggleAnswer('fillExp${idx}')">👁️ نمایش پاسخ</button><div id="fillExp${idx}" class="answer-box"><strong>پاسخ:</strong> ${item.ans}</div>`;
+    examContainer.appendChild(div);
+  });
+
+  lesson.exam.desc.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `<div class="quiz-q">${item.q}</div><button class="reveal-btn" onclick="toggleAnswer('descExp${idx}')">📖 راهنمای تصحیح</button><div id="descExp${idx}" class="answer-box">${item.guide}</div>`;
+    examContainer.appendChild(div);
+  });
+
+  initGame(lesson.matches);
+  
+  const assistantContainer = document.getElementById('assistantContainer');
+  assistantContainer.innerHTML = '';
+  lesson.qa.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.innerHTML = `<button class="reveal-btn" onclick="toggleAnswer('qa-${idx}')" style="text-align:right; width:100%;">${item.q}</button><div id="qa-${idx}" class="answer-box">${item.a}</div>`;
+    assistantContainer.appendChild(div);
+  });
+}
+
+function showTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + tabName).classList.add('active');
+}
+
+function checkMCQ(btn, selected, correct, expId) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+  if (selected === correct) { btn.classList.add('correct'); } else { btn.classList.add('wrong'); parent.children[correct + 1].classList.add('correct'); }
+  document.getElementById(expId).classList.add('show');
+}
+
+function checkTF(btn, selected, correct, expId) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.tf-btn').forEach(b => b.style.pointerEvents = 'none');
+  if (selected === correct) { btn.classList.add('correct'); } else { btn.classList.add('wrong'); }
+  document.getElementById(expId).classList.add('show');
+}
+
+function toggleAnswer(id) { document.getElementById(id).classList.toggle('show'); }
+
+let selectedTiles = [];
+let matchedCount = 0;
+
+function initGame(matches) {
+  const gameContainer = document.getElementById('gameContainer');
+  const gameStatus = document.getElementById('gameStatus');
+  gameContainer.innerHTML = '';
+  selectedTiles = []; matchedCount = 0;
+  gameStatus.textContent = `پیشرفت: ۰ از ${matches.length}`;
+  let tiles = [];
+  matches.forEach((pair, idx) => { tiles.push({ text: pair.term, id: idx }); tiles.push({ text: pair.match, id: idx }); });
+  tiles.sort(() => Math.random() - 0.5);
+  tiles.forEach(tile => {
+    const div = document.createElement('div');
+    div.className = 'match-tile';
+    div.textContent = tile.text;
+    div.dataset.id = tile.id;
+    div.onclick = () => handleTileClick(div, matches.length);
+    gameContainer.appendChild(div);
+  });
+}
+
+function handleTileClick(tile, total) {
+  if (tile.classList.contains('matched') || tile.classList.contains('selected')) return;
+  tile.classList.add('selected'); selectedTiles.push(tile);
+  if (selectedTiles.length === 2) {
+    const [t1, t2] = selectedTiles;
+    if (t1.dataset.id === t2.dataset.id) {
+      setTimeout(() => {
+        t1.classList.add('matched'); t1.classList.remove('selected');
+        t2.classList.add('matched'); t2.classList.remove('selected');
+        matchedCount++;
+        document.getElementById('gameStatus').textContent = `پیشرفت: ${matchedCount} از ${total}`;
+        if (matchedCount === total) document.getElementById('gameStatus').textContent = "🎉 تبریک!";
+        selectedTiles = [];
+      }, 300);
+    } else {
+      setTimeout(() => { t1.classList.remove('selected'); t2.classList.remove('selected'); selectedTiles = []; }, 600);
+    }
+  }
+}
+
+loadLesson(1);
+</script>
+</body>
+</html>
